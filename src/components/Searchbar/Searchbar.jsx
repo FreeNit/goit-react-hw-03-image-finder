@@ -13,9 +13,14 @@ export class Searchbar extends Component {
     });
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.searchRequest);
+  };
+
   render() {
     return (
-      <SearchBarStyled onSubmit={this.props.onSubmit}>
+      <SearchBarStyled onSubmit={this.handleSubmit}>
         <header className="searchbar">
           <SearchForm className="form">
             <button type="submit" className="button">
