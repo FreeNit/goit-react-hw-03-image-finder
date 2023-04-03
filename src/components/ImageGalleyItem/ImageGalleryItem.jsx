@@ -6,10 +6,10 @@ export class ImageGalleryItem extends Component {
   state = {};
 
   render() {
-    const { webformatURL, tags } = this.props.imageData;
+    const { webformatURL, tags, largeImageURL } = this.props.imageData;
     return (
       <GalleryItem>
-        <img src={webformatURL} alt={tags} />
+        <img src={webformatURL} alt={tags} largeimageurl={largeImageURL} />
       </GalleryItem>
     );
   }
