@@ -6,32 +6,26 @@ import { ImageGalleryItem } from 'components/ImageGalleyItem/ImageGalleryItem';
 import { ImageCollection } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
-  state = {
-    imageCollection: null,
-    page: 1,
-  };
-
   async componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchText !== this.props.searchText) {
       console.log('We are going to do fetch request');
       const imageCollection = await fetchImagesData(
         this.props.searchText,
-        this.state.page
+        this.props.page
       );
       console.log(imageCollection);
-      this.setState({
-        imageCollection: imageCollection.hits,
-      });
+      this.props.updateTotal(imageCollection.total);
+      this.props.updateImgCollection(imageCollection.hits);
     }
   }
 
   render() {
-    const { imageCollection } = this.state;
+    const { imageCollection } = this.props;
 
     return (
       imageCollection && (
         <ImageCollection>
-          {this.state.imageCollection.map(image => (
+          {imageCollection.map(image => (
             <ImageGalleryItem key={image.id} imageData={image} />
           ))}
         </ImageCollection>
