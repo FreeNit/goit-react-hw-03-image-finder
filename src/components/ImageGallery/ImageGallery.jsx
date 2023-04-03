@@ -14,7 +14,7 @@ export class ImageGallery extends Component {
         this.props.page
       );
       console.log(imageCollection);
-      this.props.updateTotal(imageCollection.total);
+      this.props.updateTotal(imageCollection.totalHits);
       this.props.updateImgCollection(imageCollection.hits);
     }
   }
