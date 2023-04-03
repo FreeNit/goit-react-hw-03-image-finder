@@ -6,16 +6,42 @@ import { ImageGalleryItem } from 'components/ImageGalleyItem/ImageGalleryItem';
 import { ImageCollection } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchText !== this.props.searchText) {
-      console.log('We are going to do fetch request');
+  async componentDidMount() {
+    this.props.toggleSpinner(true);
+
+    try {
       const imageCollection = await fetchImagesData(
         this.props.searchText,
         this.props.page
       );
-      console.log(imageCollection);
-      this.props.updateTotal(imageCollection.totalHits);
+      // console.log(imageCollection);
+      this.props.setBasicState(imageCollection.totalHits);
       this.props.updateImgCollection(imageCollection.hits);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      this.props.toggleSpinner(false);
+    }
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps.searchText !== this.props.searchText) {
+      this.props.toggleSpinner(true);
+
+      // console.log('We are going to do fetch request');
+      try {
+        const imageCollection = await fetchImagesData(
+          this.props.searchText,
+          this.props.page
+        );
+        // console.log(imageCollection);
+        this.props.setBasicState(imageCollection.totalHits);
+        this.props.updateImgCollection(imageCollection.hits);
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        this.props.toggleSpinner(false);
+      }
     }
   }
 

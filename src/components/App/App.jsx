@@ -14,6 +14,7 @@ export class App extends Component {
     page: 1,
     totalPage: 0,
     total: 0,
+    loading: false,
   };
 
   onSubmit = searchText => {
@@ -22,10 +23,16 @@ export class App extends Component {
     });
   };
 
-  updateTotal = total => {
+  toggleSpinner = spinnerStatus => {
     this.setState({
-      total,
+      loading: spinnerStatus,
+    });
+  };
+
+  setBasicState = total => {
+    this.setState({
       totalPage: Math.ceil(total / 15),
+      total,
     });
   };
 
@@ -39,14 +46,19 @@ export class App extends Component {
     return (
       <AppStyled>
         <Searchbar onSubmit={this.onSubmit} />
-        <ImageGallery
-          searchText={this.state.searchText}
-          imageCollection={this.state.imageCollection}
-          page={this.state.page}
-          totalPage={this.state.totalPage}
-          updateTotal={this.updateTotal}
-          updateImgCollection={this.updateImgCollection}
-        />
+        {this.state.loading && <h1>Loading...</h1>}
+        {this.state.searchText && (
+          <ImageGallery
+            searchText={this.state.searchText}
+            imageCollection={this.state.imageCollection}
+            page={this.state.page}
+            totalPage={this.state.totalPage}
+            setBasicState={this.setBasicState}
+            updateImgCollection={this.updateImgCollection}
+            toggleSpinner={this.toggleSpinner}
+          />
+        )}
+
         {this.state.imageCollection && this.state.totalPage > 1 && <Button />}
 
         <GlobalStyle />
