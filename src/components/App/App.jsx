@@ -32,6 +32,7 @@ export class App extends Component {
     if (this.state.searchText !== searchValue) {
       this.setState({
         searchText: searchValue,
+        page: 1,
         loading: true,
       });
       setTimeout(() => {
